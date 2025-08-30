@@ -36,6 +36,9 @@ return {
           title = "Copilot",
         },
         mappings = {
+          complete = {
+            insert = "<C-t>",
+          },
           show_diff = {
             normal = "gd",
             full_diff = true, -- Show full diff instead of unified diff when showing diff window
