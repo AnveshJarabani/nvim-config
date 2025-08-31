@@ -4,8 +4,8 @@ return {
     dependencies = {
       "rcarriga/nvim-dap-ui",
       "nvim-neotest/nvim-nio",
-      "theHamsta/nvim-dap-virtual-text",
       "mfussenegger/nvim-dap-python",
+      "theHamsta/nvim-dap-virtual-text",
       "nvim-tree/nvim-web-devicons",
     },
     config = function()
@@ -19,36 +19,8 @@ return {
       -- Setup virtual text
       require("nvim-dap-virtual-text").setup()
 
-      -- Find Python executable
-      local function get_python_path()
-        -- Check for virtual environment
-        local venv_python = os.getenv("VIRTUAL_ENV")
-        if venv_python then
-          return venv_python .. "/bin/python"
-        end
-
-        -- Check common Python locations
-        local python_paths = {
-          "/usr/bin/python3",
-          "/usr/local/bin/python3",
-          "/opt/homebrew/bin/python3",
-          "python3",
-          "python",
-        }
-
-        for _, path in ipairs(python_paths) do
-          if vim.fn.executable(path) == 1 then
-            return path
-          end
-        end
-
-        return "python3" -- fallback
-      end
-
-      -- Setup Python debugging with proper path
-      local python_path = get_python_path()
-      print("Using Python path: " .. python_path)
-      dap_python.setup(python_path)
+      -- Setup Python debugging with python3 and global debugpy
+      dap_python.setup("/usr/bin/python3", { pythonPath = "/usr/bin/python3" })
 
       -- Auto open/close DAP UI
       dap.listeners.after.event_initialized["dapui_config"] = function()
