@@ -17,10 +17,10 @@ vim.api.nvim_create_autocmd("TermOpen", {
 vim.o.completeopt = "menu,menuone,noselect,noinsert,popup"
 --keep active line always centered
 vim.opt.scrolloff = 999
-vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
-    -- Remove all \r from the current buffer
+    -- Remove all \r from the current buffer before saving
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     for i, line in ipairs(lines) do
       lines[i] = line:gsub("\r", "")
