@@ -66,6 +66,14 @@ return {
         mode = { "n", "v" },
       },
       {
+        "<leader>as",
+        function()
+          require("CopilotChat").stop()
+        end,
+        desc = "Stop (CopilotChat)",
+        mode = { "n", "v" },
+      },
+      {
         "<leader>ap",
         function()
           require("CopilotChat").select_prompt()

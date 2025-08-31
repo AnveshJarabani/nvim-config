@@ -51,3 +51,7 @@ vim.cmd("cabbr fh Telescope help_tags")
 vim.cmd("cabbr sl SessionSearch")
 -- Lazy.nvim (Plugin Manager) abbreviations
 vim.cmd("cabbr lx LazyExtras")
+vim.api.nvim_set_hl(0, "DiffAdd", { bg = "#1a2f1a", fg = "#7ee787" })
+vim.api.nvim_set_hl(0, "DiffDelete", { bg = "#2f1a1a", fg = "#f85149" })
+vim.api.nvim_set_hl(0, "DiffChange", { bg = "#2f2a1a", fg = "#d0d7de" })
+vim.api.nvim_set_hl(0, "DiffText", { bg = "#3a2f1a", fg = "#f0e68c", bold = true })

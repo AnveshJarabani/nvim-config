@@ -33,4 +33,25 @@ return {
       -- vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
     end,
   },
+  {
+    "projekt0n/github-nvim-theme",
+    name = "github-theme",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("github-theme").setup({
+        -- Add your configuration here if needed
+        options = {
+          compile_path = vim.fn.stdpath("cache") .. "/github-theme",
+          compile_file_suffix = "_compiled",
+          hide_end_of_buffer = true,
+          hide_nc_statusline = true,
+          transparent = false,
+          terminal_colors = true,
+          dim_inactive = false,
+          module_default = true,
+        },
+      })
+    end,
+  },
 }
