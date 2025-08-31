@@ -23,8 +23,8 @@ map("n", "<C-a>", "ggVG", { noremap = true, silent = true })
 -- save file with Alt-S
 map({ "n", "i", "v" }, "<A-s>", "<cmd>w<cr>", { desc = "Save File (Alt+S)", noremap = true, silent = true })
 
-vim.keymap.set("n", "<C-Home>", "gg", { noremap = true, silent = true })
-vim.keymap.set("n", "<C-End>", "G", { noremap = true, silent = true })
+map("n", "<C-Home>", "gg", { noremap = true, silent = true })
+map("n", "<C-End>", "G", { noremap = true, silent = true })
 -- Delete operations for Normal and Visual modes
 map({ "n", "x" }, "d", [["_d]], { desc = "Delete to blackhole register" })
 -- 'dd' is line-wise, so it only makes sense in Normal mode
@@ -59,7 +59,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "noice", "copilot", "qf", "help", "markdown" }, -- add filetypes that open in splits
   callback = function()
     -- Map <Esc> to close the window/buffer
-    vim.keymap.set("n", "<Esc>", "<cmd>close<cr>", { buffer = true, silent = true })
+    map("n", "<Esc>", "<cmd>close<cr>", { buffer = true, silent = true })
   end,
 })
 -- Map the <leader><leader> to `find_files`
@@ -137,14 +137,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- vim.keymap.set("n", "<C-_>", function()
+-- map("n", "<C-_>", function()
 --   local buf_path = vim.api.nvim_buf_get_name(0)
 --   local dir = buf_path ~= "" and vim.fn.fnamemodify(buf_path, ":p:h") or vim.loop.cwd()
 --   require("toggleterm.terminal").Terminal:new({ direction = "float", dir = dir }):toggle()
 -- end, { desc = "Toggle floating terminal in buffer dir" })
 
 local main_term
-vim.keymap.set("n", "<leader>tl", function()
+map("n", "<leader>tl", function()
   local buf_path = vim.api.nvim_buf_get_name(0)
   local dir = buf_path ~= "" and vim.fn.fnamemodify(buf_path, ":p:h") or vim.loop.cwd()
   if not main_term then
@@ -153,32 +153,26 @@ vim.keymap.set("n", "<leader>tl", function()
   main_term:toggle()
 end, { desc = "Toggle main floating terminal in buffer dir" })
 
-vim.keymap.set("i", "<C-y>", function()
+map("i", "<C-y>", function()
   require("copilot.suggestion").accept()
 end, { desc = "Copilot Accept" })
 
-vim.keymap.set("n", "<leader>yd", function()
+map("n", "<leader>yd", function()
   local dir = vim.fn.expand("%:p:h")
   vim.fn.setreg("+", dir)
   vim.notify("Copied directory to clipboard:\n" .. dir, vim.log.levels.INFO)
 end, { desc = "Copy buffer directory to clipboard" })
 
-vim.keymap.set("n", "<leader>yb", function()
+map("n", "<leader>yb", function()
   local path = vim.fn.expand("%:p")
   vim.fn.setreg("+", path)
   vim.notify("Copied file path to clipboard:\n" .. path, vim.log.levels.INFO)
 end, { desc = "Copy buffer file path to clipboard" })
 
-vim.keymap.set("n", "<leader>yf", function()
+map("n", "<leader>yf", function()
   local filename = vim.fn.expand("%:t")
   vim.fn.setreg("+", filename)
   vim.notify("Copied file name to clipboard:\n" .. filename, vim.log.levels.INFO)
 end, { desc = "Copy buffer file name to clipboard" })
 
 vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
-
-vim.keymap.set("n", "<leader>rr", function()
-  vim.cmd("source $MYVIMRC")
-  vim.cmd("Lazy reload")
-  vim.notify("Configuration and plugins reloaded!", vim.log.levels.INFO)
-end, { desc = "Reload Neovim configuration and plugins" })
