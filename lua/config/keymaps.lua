@@ -144,7 +144,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- end, { desc = "Toggle floating terminal in buffer dir" })
 
 local main_term
-vim.keymap.set("n", "<C-_>", function()
+vim.keymap.set("n", "<leader>tl", function()
   local buf_path = vim.api.nvim_buf_get_name(0)
   local dir = buf_path ~= "" and vim.fn.fnamemodify(buf_path, ":p:h") or vim.loop.cwd()
   if not main_term then
@@ -176,3 +176,9 @@ vim.keymap.set("n", "<leader>yf", function()
 end, { desc = "Copy buffer file name to clipboard" })
 
 vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
+
+vim.keymap.set("n", "<leader>rr", function()
+  vim.cmd("source $MYVIMRC")
+  vim.cmd("Lazy reload")
+  vim.notify("Configuration and plugins reloaded!", vim.log.levels.INFO)
+end, { desc = "Reload Neovim configuration and plugins" })
