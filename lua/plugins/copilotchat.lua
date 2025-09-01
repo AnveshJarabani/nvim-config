@@ -82,6 +82,22 @@ return {
         mode = { "n", "v" },
       },
       {
+        "<leader>aw",
+        function()
+          vim.cmd("CopilotChatSave")
+        end,
+        desc = "Save Chat (CopilotChat)",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>al",
+        function()
+          vim.cmd("CopilotChatLoad")
+        end,
+        desc = "Load Chat (CopilotChat)",
+        mode = { "n", "v" },
+      },
+      {
         "<leader>ap",
         function()
           require("CopilotChat").select_prompt()
