@@ -176,3 +176,7 @@ map("n", "<leader>yf", function()
 end, { desc = "Copy buffer file name to clipboard" })
 
 vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
+
+-- Diff operations
+vim.keymap.set("n", "<leader>do", ":DiffviewOpen<CR>", { desc = "Diff View Open" })
+vim.keymap.set("n", "<leader>dc", ":DiffviewClose<CR>", { desc = "Diff View Close" })
