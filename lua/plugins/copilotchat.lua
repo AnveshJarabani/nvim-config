@@ -74,6 +74,14 @@ return {
         mode = { "n", "v" },
       },
       {
+        "<leader>ao",
+        function()
+          vim.cmd("CopilotChatOptimize")
+        end,
+        desc = "Optimize Code (CopilotChat)",
+        mode = { "n", "v" },
+      },
+      {
         "<leader>ap",
         function()
           require("CopilotChat").select_prompt()
