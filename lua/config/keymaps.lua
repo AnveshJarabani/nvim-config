@@ -5,7 +5,7 @@
 -- but for keymaps, 'x' generally covers all visual modes (character, line, block).
 -- If you want to be extremely precise about character-wise visual, use 'v'.
 -- However, 'x' is typically sufficient for these kinds of remaps.
-local map = map
+local map = vim.keymap.set
 
 -- Remap window navigation to Ctrl-ArrowKeys
 map("n", "<M-Left>", "<C-w>h", { desc = "Go to Left Window", remap = true })
