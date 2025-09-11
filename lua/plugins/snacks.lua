@@ -154,7 +154,7 @@ return {
             hidden = false,
             unloaded = true,
             current = true,
-            sort_lastused = true,
+            -- sort_lastused = true,
             win = {
               input = {
                 keys = {
@@ -171,28 +171,36 @@ return {
       },
     },
     opts = {
-      -- Documentation for the picker
-      -- https://github.com/folke/snacks.nvim/blob/main/docs/picker.md
+      -- Custom buffer lastused tracking for more accurate sorting
       picker = {
-        -- My ~/github/dotfiles-latest/neovim/lazyvim/lua/config/keymaps.lua
-        -- file was always showing at the top, I needed a way to decrease its
-        -- score, in frecency you could use :FrecencyDelete to delete a file
-        -- from the database, here you can decrease it's score
-        transform = function(item)
-          if not item.file then
-            return item
-          end
-          -- Demote the "lazyvim" keymaps file:
-          if item.file:match("lazyvim/lua/config/keymaps%.lua") then
-            item.score_add = (item.score_add or 0) - 30
-          end
-          -- Boost the "neobean" keymaps file:
-          -- if item.file:match("neobean/lua/config/keymaps%.lua") then
-          --   item.score_add = (item.score_add or 0) + 100
-          -- end
-          return item
-        end,
-        -- In case you want to make sure that the score manipulation above works
+        sources = {
+          buffers = {
+            transform = function(item, ctx)
+              if ctx.picker.opts.sort_lastused then
+                local lastused = {}
+                vim.api.nvim_create_autocmd("BufWinEnter", {
+                  group = vim.api.nvim_create_augroup("buf_lastused", { clear = true }),
+                  callback = function(event)
+                    local picker = Snacks.picker.get({ source = "buffers" })[1]
+                    if picker and picker:is_focused() then
+                      -- Don't update lastused when picker is focused
+                    else
+                      local sec, usec = (vim.uv or vim.loop).gettimeofday()
+                      lastused[event.buf] = sec + usec / 1e6
+                    end
+                  end,
+                })
+
+                item = vim.tbl_deep_extend("force", item, {
+                  info = {
+                    lastused = lastused[item.buf],
+                  },
+                })
+                return item
+              end
+            end,
+          },
+        },
         -- or if you want to check the score of each file
         debug = {
           scores = false, -- show scores in the list

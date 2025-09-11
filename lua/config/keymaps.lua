@@ -5,7 +5,7 @@
 -- but for keymaps, 'x' generally covers all visual modes (character, line, block).
 -- If you want to be extremely precise about character-wise visual, use 'v'.
 -- However, 'x' is typically sufficient for these kinds of remaps.
-local map = vim.keymap.set
+local map = map
 
 -- Remap window navigation to Ctrl-ArrowKeys
 map("n", "<M-Left>", "<C-w>h", { desc = "Go to Left Window", remap = true })
@@ -178,5 +178,14 @@ end, { desc = "Copy buffer file name to clipboard" })
 vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 
 -- Diff operations
-vim.keymap.set("n", "<leader>do", ":DiffviewOpen<CR>", { desc = "Diff View Open" })
-vim.keymap.set("n", "<leader>dc", ":DiffviewClose<CR>", { desc = "Diff View Close" })
+map("n", "<leader>do", ":DiffviewOpen<CR>", { desc = "Diff View Open" })
+map("n", "<leader>dc", ":DiffviewClose<CR>", { desc = "Diff View Close" })
+
+-- Clear quickfix list
+map("n", "<leader>qc", "<cmd>call setqflist([])<CR>", { desc = "Clear quickfix list" })
+
+-- Other useful quickfix mappings
+map("n", "<leader>qo", "<cmd>copen<CR>", { desc = "Open quickfix list" })
+map("n", "<leader>qq", "<cmd>cclose<CR>", { desc = "Close quickfix list" })
+map("n", "<leader>qn", "<cmd>cnext<CR>", { desc = "Next quickfix item" })
+map("n", "<leader>qp", "<cmd>cprev<CR>", { desc = "Previous quickfix item" })
