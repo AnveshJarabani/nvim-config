@@ -190,49 +190,14 @@ map("n", "<leader>qq", "<cmd>cclose<CR>", { desc = "Close quickfix list" })
 map("n", "<leader>qn", "<cmd>cnext<CR>", { desc = "Next quickfix item" })
 map("n", "<leader>qp", "<cmd>cprev<CR>", { desc = "Previous quickfix item" })
 
--- Function to remove trailing whitespace from all active buffers
+-- Function to remove trailing whitespace from current buffer
 local function remove_trailing_whitespace()
-  local buffers = vim.api.nvim_list_bufs()
-  local count = 0
-  local processed = 0
-
-  for _, buf in ipairs(buffers) do
-    -- Only process loaded, valid buffers with a filename
-    if vim.api.nvim_buf_is_loaded(buf) and vim.api.nvim_buf_is_valid(buf) then
-      local filename = vim.api.nvim_buf_get_name(buf)
-      if filename ~= "" then
-        -- Switch to the buffer
-        vim.api.nvim_set_current_buf(buf)
-
-        local before_content = vim.fn.getline(1, "$")
-        vim.cmd("%s/\\s\\+$//e")
-        local after_content = vim.fn.getline(1, "$")
-
-        -- Check if content actually changed
-        local changed = false
-        if #before_content == #after_content then
-          for i = 1, #before_content do
-            if before_content[i] ~= after_content[i] then
-              changed = true
-              break
-            end
-          end
-        else
-          changed = true
-        end
-
-        if changed then
-          count = count + 1
-        end
-        processed = processed + 1
-      end
-    end
-  end
-  print("Processed " .. processed .. " buffers, modified " .. count .. " buffers")
+  vim.cmd([[%s/\s\+$//e]])
+  print("Removed trailing whitespace from current buffer")
 end
 
 -- Create user command
 vim.api.nvim_create_user_command("RemoveTrailingWhitespace", remove_trailing_whitespace, {})
 
 -- Create hotkey
-map("n", "<leader>tw", remove_trailing_whitespace, { desc = "Remove trailing whitespace from all active buffers" })
+map("n", "<leader>tw", remove_trailing_whitespace, { desc = "Remove trailing whitespace from current buffer" })

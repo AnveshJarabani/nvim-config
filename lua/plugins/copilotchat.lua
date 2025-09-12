@@ -18,7 +18,7 @@ return {
         context = "buffers",
         prompts = {
           CommitMessage = {
-            prompt = "Write commit message for the change with commitizen convention. Keep the title under 50 characters and wrap message at 72 characters, include a nice emoji at the start. Format as a gitcommit code block.",
+            prompt = "Write commit message for the change with commitizen convention. Keep the title under 50 characters and no wrap message, include a nice emoji at the start. Format as a gitcommit code block.",
             context = "git:staged",
             mapping = "<leader>ac",
             description = "Generate Commit Message",
