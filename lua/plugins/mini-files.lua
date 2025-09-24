@@ -3,7 +3,7 @@
 -- Filename: ~/github/dotfiles-latest/neovim/neobean/lua/plugins/mini-files.lua
 -- ~/github/dotfiles-latest/neovim/neobean/lua/plugins/mini-files.lua
 --
--- https://github.com/echasnovski/mini.files
+-- https://github.com/nvim-mini/mini.files
 --
 -- I got this configuration from LazyVim.org
 -- http://www.lazyvim.org/extras/editor/mini-files
@@ -20,7 +20,7 @@
 --local mini_files_git = require("config.modules.mini-files-git")
 
 return {
-  "echasnovski/mini.files",
+  "nvim-mini/mini.files",
   opts = function(_, opts)
     -- I didn't like the default mappings, so I modified them
     -- Module mappings created only inside explorer.
