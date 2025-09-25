@@ -164,7 +164,7 @@ map("n", "<leader>yd", function()
 end, { desc = "Copy buffer directory to clipboard" })
 
 map("n", "<leader>yb", function()
-  local path = vim.fn.expand("%:p")
+  local path = vim.fn.expand("%:p:r")
   vim.fn.setreg("+", path)
   vim.notify("Copied file path to clipboard:\n" .. path, vim.log.levels.INFO)
 end, { desc = "Copy buffer file path to clipboard" })
