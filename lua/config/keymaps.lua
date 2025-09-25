@@ -170,7 +170,7 @@ map("n", "<leader>yb", function()
 end, { desc = "Copy buffer file path to clipboard" })
 
 map("n", "<leader>yf", function()
-  local filename = vim.fn.expand("%:t")
+  local filename = vim.fn.expand("%:t:r")
   vim.fn.setreg("+", filename)
   vim.notify("Copied file name to clipboard:\n" .. filename, vim.log.levels.INFO)
 end, { desc = "Copy buffer file name to clipboard" })
