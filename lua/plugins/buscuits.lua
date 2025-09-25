@@ -1,24 +1,20 @@
 return {
-  "code-biscuits/nvim-biscuits",
+  "nvim-treesitter/nvim-treesitter-context",
   event = "VeryLazy",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter",
+  },
   config = function()
-    require("nvim-biscuits").setup({
-      default_config = {
-        max_length = 12,
-        min_distance = 5,
-        prefix_string = " 󰆘 ",
-      },
-      language_config = {
-        html = {
-          prefix_string = " 🌐 ",
-        },
-        javascript = {
-          prefix_string = " ⚡ ",
-        },
-        lua = {
-          prefix_string = " 🌙 ",
-        },
-      },
+    require("treesitter-context").setup({
+      enable = true,
+      max_lines = 3,
+      min_window_height = 0,
+      line_numbers = true,
+      multiline_threshold = 20,
+      trim_scope = "outer",
+      mode = "cursor",
+      separator = nil,
+      zindex = 20,
     })
   end,
 }

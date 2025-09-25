@@ -124,7 +124,7 @@ map(
 map("n", "<space>tc", "<cmd>Telescope frecency<CR>", { noremap = true, silent = true, desc = "Telescope: Frecency" })
 map("n", "<leader>rm", [[:%s/\r//g<CR>]], { noremap = true, silent = true })
 map("v", "<leader>rm", [[:s/\r//g<CR>]], { noremap = true, silent = true })
-map("n", "<leader>ss", ":SessionSearch<CR>", { desc = "SessionSearch" })
+map("n", "<leader>ss", ":AutoSession search<CR>", { desc = "SessionSearch" })
 map("n", "<space>zz", ":qa!<CR>", { desc = "Quit All" })
 map("n", "<space>G", "<cmd>LazyGit<CR>", { noremap = true, silent = true, desc = "LazyGit" })
 map("n", "ZQ", ":qa!<CR>")
