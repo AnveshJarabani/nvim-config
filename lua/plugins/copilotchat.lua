@@ -12,9 +12,9 @@ return {
       user = user:sub(1, 1):upper() .. user:sub(2)
       return {
         auto_insert_mode = false,
-        question_header = "   ",
-        answer_header = "   ",
-        sticky = { "#buffers:listed", "#files:all", "$claude-sonnet-4" },
+        question_header = " 👱 ",
+        answer_header = " 🤖 ",
+        sticky = { "#buffer:active", "#files:all", "$claude-sonnet-4" },
         context = "buffers",
         prompts = {
           CommitMessage = {
