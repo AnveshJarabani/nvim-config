@@ -201,3 +201,6 @@ vim.api.nvim_create_user_command("RemoveTrailingWhitespace", remove_trailing_whi
 
 -- Create hotkey
 map("n", "<leader>tw", remove_trailing_whitespace, { desc = "Remove trailing whitespace from current buffer" })
+vim.keymap.set("n", "<leader>gm", function()
+  vim.cmd('!copilot -p "add commit message" --allow-all-tools')
+end, { desc = "Run copilot commit message" })
