@@ -202,5 +202,22 @@ vim.api.nvim_create_user_command("RemoveTrailingWhitespace", remove_trailing_whi
 -- Create hotkey
 map("n", "<leader>tw", remove_trailing_whitespace, { desc = "Remove trailing whitespace from current buffer" })
 vim.keymap.set("n", "<leader>gm", function()
-  vim.cmd('!copilot -p "add commit message" --allow-all-tools')
-end, { desc = "Run copilot commit message" })
+  local Terminal = require("toggleterm.terminal").Terminal
+  local copilot_term = Terminal:new({
+    cmd = 'copilot -p "add commit message" --allow-all-tools',
+    direction = "float",
+    float_opts = {
+      border = "curved",
+      width = 80,
+      height = 20,
+    },
+    on_exit = function(t, job, exit_code)
+      if exit_code == 0 then
+        vim.notify("Commit message generated successfully!", vim.log.levels.INFO)
+      else
+        vim.notify("Failed to generate commit message", vim.log.levels.ERROR)
+      end
+    end,
+  })
+  copilot_term:toggle()
+end, { desc = "Run copilot commit message (interactive)" })
