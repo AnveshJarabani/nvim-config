@@ -204,7 +204,7 @@ map("n", "<leader>tw", remove_trailing_whitespace, { desc = "Remove trailing whi
 vim.keymap.set("n", "<leader>gm", function()
   local Terminal = require("toggleterm.terminal").Terminal
   local copilot_term = Terminal:new({
-    cmd = 'copilot -p "add commit message" --allow-all-tools',
+    cmd = 'copilot -p "add commit message using nice fancy icons" --allow-all-tools',
     direction = "float",
     float_opts = {
       border = "curved",
