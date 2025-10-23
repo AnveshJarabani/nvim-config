@@ -32,7 +32,7 @@ return {
 
       -- Navigation mappings with diff mode support
       local nav_mappings = {
-        ["]h"] = {
+        ["<leader>ghn"] = {
           function()
             if vim.wo.diff then
               vim.cmd.normal({ "]c", bang = true })
@@ -40,9 +40,9 @@ return {
               gs.nav_hunk("next")
             end
           end,
-          "Next Hunk",
+          "🔽 Next Hunk",
         },
-        ["[h"] = {
+        ["<leader>ghp"] = {
           function()
             if vim.wo.diff then
               vim.cmd.normal({ "[c", bang = true })
@@ -50,53 +50,53 @@ return {
               gs.nav_hunk("prev")
             end
           end,
-          "Prev Hunk",
+          "🔼 Prev Hunk",
         },
-        ["]H"] = {
+        ["<leader>ghl"] = {
           function()
             gs.nav_hunk("last")
           end,
-          "Last Hunk",
+          "⏭️ Last Hunk",
         },
-        ["[H"] = {
+        ["<leader>ghf"] = {
           function()
             gs.nav_hunk("first")
           end,
-          "First Hunk",
+          "⏮️ First Hunk",
         },
       }
 
       -- Git operations mappings
       local git_mappings = {
-        ["<leader>ghs"] = { ":Gitsigns stage_hunk<CR>", "Stage Hunk", { "n", "v" } },
-        ["<leader>gr"] = { ":Gitsigns reset_hunk<CR>", "Reset Hunk", { "n", "v" } },
-        ["<leader>ghS"] = { gs.stage_buffer, "Stage Buffer", "n" },
-        ["<leader>ghu"] = { gs.undo_stage_hunk, "Undo Stage Hunk", "n" },
-        ["<leader>ghR"] = { gs.reset_buffer, "Reset Buffer", "n" },
-        ["<leader>ghp"] = { gs.preview_hunk_inline, "Preview Hunk Inline", "n" },
+        ["<leader>ghs"] = { ":Gitsigns stage_hunk<CR>", "📦 Stage Hunk", { "n", "v" } },
+        ["<leader>gr"] = { ":Gitsigns reset_hunk<CR>", "🔄 Reset Hunk", { "n", "v" } },
+        ["<leader>ghS"] = { gs.stage_buffer, "📦 Stage Buffer", "n" },
+        ["<leader>ghu"] = { gs.undo_stage_hunk, "↩️ Undo Stage Hunk", "n" },
+        ["<leader>ghR"] = { gs.reset_buffer, "🔄 Reset Buffer", "n" },
+        ["<leader>ghv"] = { gs.preview_hunk_inline, "👁️ Preview Hunk Inline", "n" },
         ["<leader>ghb"] = {
           function()
             gs.blame_line({ full = true })
           end,
-          "Blame Line",
+          "👤 Blame Line",
           "n",
         },
         ["<leader>ghB"] = {
           function()
             gs.blame()
           end,
-          "Blame Buffer",
+          "👥 Blame Buffer",
           "n",
         },
-        ["<leader>ghd"] = { gs.diffthis, "Diff This", "n" },
+        ["<leader>ghd"] = { gs.diffthis, "🔍 Diff This", "n" },
         ["<leader>ghD"] = {
           function()
             gs.diffthis("~")
           end,
-          "Diff This ~",
+          "🔍 Diff This ~",
           "n",
         },
-        ["ih"] = { ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk", { "o", "x" } },
+        ["ih"] = { ":<C-U>Gitsigns select_hunk<CR>", "🎯 GitSigns Select Hunk", { "o", "x" } },
       }
 
       -- Apply navigation mappings
