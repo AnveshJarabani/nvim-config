@@ -208,8 +208,8 @@ vim.keymap.set("n", "<leader>gm", function()
     direction = "float",
     float_opts = {
       border = "curved",
-      width = 80,
-      height = 20,
+      -- width = 80,
+      -- height = 20,
     },
     on_exit = function(t, job, exit_code)
       if exit_code == 0 then
