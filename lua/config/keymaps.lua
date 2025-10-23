@@ -9,6 +9,11 @@ local map = vim.keymap.set
 
 -- Remap window navigation to Ctrl-ArrowKeys
 map("n", "<M-Left>", "<C-w>h", { desc = "🔄 Go to Left Window", remap = true })
+map("n", "<leader>cc", function()
+  local cwd = vim.fn.getcwd()
+  vim.fn.system("code " .. vim.fn.shellescape(cwd))
+  vim.notify("Opened project in VS Code: " .. cwd, vim.log.levels.INFO)
+end, { desc = "💻 Open current project in VS Code" })
 map("n", "<M-Down>", "<C-w>j", { desc = "🔄 Go to Lower Window", remap = true })
 map("n", "<M-Up>", "<C-w>k", { desc = "🔄 Go to Upper Window", remap = true })
 map("n", "<M-Right>", "<C-w>l", { desc = "🔄 Go to Right Window", remap = true })
@@ -244,6 +249,16 @@ map("n", "<leader>om", "<cmd>Octo pr merge<CR>", { desc = "🔀 Octo: Merge PR" 
 map("n", "<leader>or", "<cmd>Octo pr review<CR>", { desc = "👀 Octo: Review PR" })
 map("n", "<leader>os", "<cmd>Octo pr status<CR>", { desc = "📊 Octo: PR status" })
 map("n", "<leader>oo", "<cmd>Octo pr checkout<CR>", { desc = "🔄 Octo: Checkout PR" })
+map("n", "<leader>ou", function()
+  -- First copy the URL
+  vim.cmd("Octo pr url")
+  -- Then open it in browser (similar to gx behavior)
+  local url = vim.fn.getreg("+")
+  if url and url ~= "" then
+    vim.fn.system("xdg-open " .. vim.fn.shellescape(url))
+    vim.notify("Opened PR in browser: " .. url, vim.log.levels.INFO)
+  end
+end, { desc = "🔗 Octo: Copy & open PR URL in browser" })
 map("n", "<leader>oi", "<cmd>Octo issue list<CR>", { desc = "📋 Octo: List issues" })
 map("n", "<leader>ox", "<cmd>Octo issue close<CR>", { desc = "❌ Octo: Close issue" })
 map("n", "<leader>on", "<cmd>Octo issue create<CR>", { desc = "✨ Octo: Create issue" })
