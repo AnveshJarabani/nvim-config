@@ -1,6 +1,7 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" },
+  enabled = true,
   opts = {
     signcolumn = true,
     attach_to_untracked = true,
