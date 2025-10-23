@@ -69,7 +69,7 @@ return {
       -- Git operations mappings
       local git_mappings = {
         ["<leader>ghs"] = { ":Gitsigns stage_hunk<CR>", "Stage Hunk", { "n", "v" } },
-        ["<leader>ghr"] = { ":Gitsigns reset_hunk<CR>", "Reset Hunk", { "n", "v" } },
+        ["<leader>gr"] = { ":Gitsigns reset_hunk<CR>", "Reset Hunk", { "n", "v" } },
         ["<leader>ghS"] = { gs.stage_buffer, "Stage Buffer", "n" },
         ["<leader>ghu"] = { gs.undo_stage_hunk, "Undo Stage Hunk", "n" },
         ["<leader>ghR"] = { gs.reset_buffer, "Reset Buffer", "n" },
