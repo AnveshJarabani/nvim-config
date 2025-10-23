@@ -201,7 +201,7 @@ vim.api.nvim_create_user_command("RemoveTrailingWhitespace", remove_trailing_whi
 
 -- Create hotkey
 map("n", "<leader>tw", remove_trailing_whitespace, { desc = "Remove trailing whitespace from current buffer" })
-vim.keymap.set("n", "<leader>gm", function()
+map("n", "<leader>gm", function()
   local Terminal = require("toggleterm.terminal").Terminal
   local copilot_term = Terminal:new({
     cmd = 'copilot -p "add commit message using nice fancy icons" --allow-all-tools',
@@ -219,3 +219,17 @@ vim.keymap.set("n", "<leader>gm", function()
   })
   copilot_term:toggle()
 end, { desc = "Run copilot commit message (interactive)" })
+
+-- Octo (GitHub integration) mappings
+map("n", "<leader>ol", "<cmd>Octo pr list<CR>", { desc = "Octo: List PRs" })
+map("n", "<leader>od", "<cmd>Octo pr diff<CR>", { desc = "Octo: PR diff" })
+map("n", "<leader>ob", "<cmd>Octo pr browser<CR>", { desc = "Octo: Open PR in browser" })
+map("n", "<leader>oc", "<cmd>Octo pr create<CR>", { desc = "Octo: Create PR" })
+map("n", "<leader>om", "<cmd>Octo pr merge<CR>", { desc = "Octo: Merge PR" })
+map("n", "<leader>or", "<cmd>Octo pr review<CR>", { desc = "Octo: Review PR" })
+map("n", "<leader>os", "<cmd>Octo pr status<CR>", { desc = "Octo: PR status" })
+map("n", "<leader>oo", "<cmd>Octo pr checkout<CR>", { desc = "Octo: Checkout PR" })
+map("n", "<leader>oi", "<cmd>Octo issue list<CR>", { desc = "Octo: List issues" })
+map("n", "<leader>ox", "<cmd>Octo issue close<CR>", { desc = "Octo: Close issue" })
+map("n", "<leader>on", "<cmd>Octo issue create<CR>", { desc = "Octo: Create issue" })
+map("n", "<leader>oe", "<cmd>Octo issue edit<CR>", { desc = "Octo: Edit issue" })
