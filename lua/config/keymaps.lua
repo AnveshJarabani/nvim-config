@@ -224,7 +224,7 @@ map("n", "<leader>tw", remove_trailing_whitespace, { desc = "🧹 Remove trailin
 map("n", "<leader>gm", function()
   local Terminal = require("toggleterm.terminal").Terminal
   local copilot_term = Terminal:new({
-    cmd = 'copilot -p "add commit message with lots of fun fancy icons" --allow-all-tools',
+    cmd = 'copilot -p "add commit message with lots of fun fancy icons, use jl command to get my active tickets to add the jira ticket" --allow-all-tools',
     direction = "float",
     float_opts = {
       border = "curved",
