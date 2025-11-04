@@ -1,8 +1,18 @@
 return {
   "nvim-telescope/telescope.nvim",
-  tag = "0.1.8",
+  -- tag = "0.1.8",
   lazy = false, -- load immediately at startup
-  dependencies = { "nvim-lua/plenary.nvim" },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    {
+      "nvim-telescope/telescope-live-grep-args.nvim",
+      version = "^1.0.0",
+    },
+  },
+  config = function(_, opts)
+    require("telescope").setup(opts)
+    require("telescope").load_extension("live_grep_args")
+  end,
   keys = {
     {
       "<leader><leader>",
@@ -17,6 +27,13 @@ return {
         require("telescope.builtin").find_files({ cwd = vim.fn.expand("~") })
       end,
       desc = "Telescope: Find Files (override) root directory",
+    },
+    {
+      "<leader>lg",
+      function()
+        require("telescope").extensions.live_grep_args.live_grep_args()
+      end,
+      desc = "Telescope: Live Grep Args",
     },
     {
       "<leader>;",
