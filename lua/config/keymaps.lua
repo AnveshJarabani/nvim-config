@@ -263,3 +263,46 @@ map("n", "<leader>oi", "<cmd>Octo issue list<CR>", { desc = "📋 Octo: List iss
 map("n", "<leader>ox", "<cmd>Octo issue close<CR>", { desc = "❌ Octo: Close issue" })
 map("n", "<leader>on", "<cmd>Octo issue create<CR>", { desc = "✨ Octo: Create issue" })
 map("n", "<leader>oe", "<cmd>Octo issue edit<CR>", { desc = "✏️ Octo: Edit issue" })
+
+map("n", "<leader>gM", function()
+  local bufname = vim.api.nvim_buf_get_name(0)
+  local pr_number = bufname:match("pull/(%d+)") or bufname:match("pr/(%d+)")
+
+  if not pr_number then
+    vim.notify("Not in a PR buffer. Current buffer: " .. bufname, vim.log.levels.ERROR)
+    return
+  end
+
+  vim.notify("Generating description for PR #" .. pr_number, vim.log.levels.INFO)
+
+  -- Get the diff
+  local handle = io.popen("gh pr diff " .. pr_number)
+  local diff = handle:read("*a")
+  handle:close()
+
+  if diff == "" then
+    vim.notify("No diff found for PR #" .. pr_number, vim.log.levels.ERROR)
+    return
+  end
+
+  -- Generate description with copilot
+  local prompt = "Generate a fancy PR description with emojis based on this diff:\n\n" .. diff
+  local cmd = string.format(
+    "echo %s | copilot -p 'Generate a fancy PR description with emojis. Include what changed, why, and any notes. Make it professional but fun.' --allow-all-tools",
+    vim.fn.shellescape(prompt)
+  )
+
+  local handle2 = io.popen(cmd)
+  local description = handle2:read("*a")
+  handle2:close()
+
+  if description ~= "" then
+    -- Update PR with generated description
+    local update_cmd = string.format("gh pr edit %s --body %s", pr_number, vim.fn.shellescape(description))
+    vim.fn.system(update_cmd)
+    vim.fn.setreg("+", description)
+    vim.notify("PR #" .. pr_number .. " description updated!", vim.log.levels.INFO)
+  else
+    vim.notify("Failed to generate description", vim.log.levels.ERROR)
+  end
+end, { desc = "🤖 Generate PR description with Copilot CLI" })
