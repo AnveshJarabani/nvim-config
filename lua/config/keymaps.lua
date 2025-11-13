@@ -195,17 +195,24 @@ map("n", "<leader>yf", function()
   vim.notify("Copied file name to clipboard:\n" .. filename, vim.log.levels.INFO)
 end, { desc = "📝 Copy buffer file name to clipboard" })
 
+map("n", "<leader>yp", function()
+  local cwd = vim.fn.getcwd()
+  local filepath = vim.fn.expand("%:p")
+  local relative_path = vim.fn.fnamemodify(filepath, ":.")
+  relative_path = "./" .. relative_path
+  vim.fn.setreg("+", relative_path)
+  vim.notify("Copied project-relative path to clipboard:\n" .. relative_path, vim.log.levels.INFO)
+end, { desc = "📍 Copy project-relative path to clipboard" })
+
 vim.api.nvim_set_keymap("t", "<Esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
 
 -- Diff operations
 map("n", "<leader>do", ":DiffviewOpen<CR>", { desc = "🔍 Diff View Open" })
 map("n", "<leader>dc", ":DiffviewClose<CR>", { desc = "❌ Diff View Close" })
 
--- Clear quickfix list
 map("n", "<leader>qc", "<cmd>call setqflist([])<CR>", { desc = "🧹 Clear quickfix list" })
 
 -- Other useful quickfix mappings
-map("n", "<leader>qo", "<cmd>copen<CR>", { desc = "📋 Open quickfix list" })
 map("n", "<leader>qq", "<cmd>cclose<CR>", { desc = "❌ Close quickfix list" })
 map("n", "<leader>qn", "<cmd>cnext<CR>", { desc = "⏭️ Next quickfix item" })
 map("n", "<leader>qp", "<cmd>cprev<CR>", { desc = "⏮️ Previous quickfix item" })
@@ -244,7 +251,7 @@ end, { desc = "🤖 Run copilot commit message (interactive)" })
 map("n", "<leader>ol", "<cmd>Octo pr list<CR>", { desc = "📋 Octo: List PRs" })
 map("n", "<leader>od", "<cmd>Octo pr diff<CR>", { desc = "🔍 Octo: PR diff" })
 map("n", "<leader>ob", "<cmd>Octo pr browser<CR>", { desc = "🌐 Octo: Open PR in browser" })
-map("n", "<leader>oc", "<cmd>Octo pr changes<CR>", { desc = "✨ Octo: Create PR" })
+map("n", "<leader>oc", "<cmd>Octo pr create<CR>", { desc = "✨ Octo: Create PR" })
 map("n", "<leader>om", "<cmd>Octo pr merge<CR>", { desc = "🔀 Octo: Merge PR" })
 map("n", "<leader>or", "<cmd>Octo pr review<CR>", { desc = "👀 Octo: Review PR" })
 map("n", "<leader>os", "<cmd>Octo pr status<CR>", { desc = "📊 Octo: PR status" })
@@ -273,10 +280,18 @@ map("n", "<leader>gM", function()
     return
   end
 
+  -- Extract repo from buffer name (e.g., mediwareinc/wsh-bi-dataform)
+  local repo = bufname:match("octo://([^/]+/[^/]+)/")
+  if not repo then
+    vim.notify("Could not extract repository from buffer name", vim.log.levels.ERROR)
+    return
+  end
+
   vim.notify("Generating description for PR #" .. pr_number, vim.log.levels.INFO)
 
   -- Get the diff
-  local handle = io.popen("gh pr diff " .. pr_number)
+  local diff_cmd = string.format("gh pr diff %s --repo %s", pr_number, repo)
+  local handle = io.popen(diff_cmd)
   local diff = handle:read("*a")
   handle:close()
 
@@ -285,20 +300,21 @@ map("n", "<leader>gM", function()
     return
   end
 
-  -- Generate description with copilot
-  local prompt = "Generate a fancy PR description with emojis based on this diff:\n\n" .. diff
-  local cmd = string.format(
-    "echo %s | copilot -p 'Generate a fancy PR description with emojis. Include what changed, why, and any notes. Make it professional but fun.' --allow-all-tools",
-    vim.fn.shellescape(prompt)
+  -- Generate description with copilot - pass diff via stdin
+  local copilot_cmd = string.format(
+    "gh pr diff %s --repo %s | copilot -p 'Generate a fancy PR description with emojis based on this diff. Include what changed, why, and any notes. Make it professional but fun.' --allow-all-tools",
+    pr_number,
+    repo
   )
 
-  local handle2 = io.popen(cmd)
+  local handle2 = io.popen(copilot_cmd)
   local description = handle2:read("*a")
   handle2:close()
 
   if description ~= "" then
     -- Update PR with generated description
-    local update_cmd = string.format("gh pr edit %s --body %s", pr_number, vim.fn.shellescape(description))
+    local update_cmd =
+      string.format("gh pr edit %s --repo %s --body %s", pr_number, repo, vim.fn.shellescape(description))
     vim.fn.system(update_cmd)
     vim.fn.setreg("+", description)
     vim.notify("PR #" .. pr_number .. " description updated!", vim.log.levels.INFO)
