@@ -165,13 +165,37 @@ vim.api.nvim_create_autocmd("FileType", {
 
 local main_term
 map("n", "<leader>tl", function()
-  local buf_path = vim.api.nvim_buf_get_name(0)
-  local dir = buf_path ~= "" and vim.fn.fnamemodify(buf_path, ":p:h") or vim.loop.cwd()
+  local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+  local dir = (git_root and git_root ~= "") and git_root or vim.fn.getcwd()
   if not main_term then
     main_term = require("toggleterm.terminal").Terminal:new({ direction = "float", dir = dir, name = "main_term" })
   end
   main_term:toggle()
-end, { desc = "💻 Toggle main floating terminal in buffer dir" })
+end, { desc = "💻 Toggle main floating terminal in project root dir" })
+
+local gemini_term
+map("n", "<leader>tg", function()
+  local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+  local dir = (git_root and git_root ~= "") and git_root or vim.fn.getcwd()
+  if not gemini_term then
+    gemini_term = require("toggleterm.terminal").Terminal:new({
+      direction = "float",
+      dir = dir,
+      name = "gemini_term",
+      cmd = "gemini",
+      on_open = function(term)
+        vim.api.nvim_buf_set_keymap(
+          term.bufnr,
+          "t",
+          "<Esc>",
+          "<cmd>lua require('toggleterm').toggle(" .. term.id .. ")<CR>",
+          { noremap = true, silent = true }
+        )
+      end,
+    })
+  end
+  gemini_term:toggle()
+end, { desc = "♊ Toggle Gemini floating terminal in project root dir" })
 
 map("i", "<C-y>", function()
   require("copilot.suggestion").accept()
@@ -231,7 +255,7 @@ map("n", "<leader>tw", remove_trailing_whitespace, { desc = "🧹 Remove trailin
 map("n", "<leader>gm", function()
   local Terminal = require("toggleterm.terminal").Terminal
   local copilot_term = Terminal:new({
-    cmd = 'copilot -p "add commit message with lots of fun fancy modern icons" --allow-all-tools && git push',
+    cmd = 'BRANCH=$(git rev-parse --abbrev-ref HEAD); if ! git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then git push --set-upstream origin $BRANCH; fi; copilot -p "add commit message with lots of fun fancy modern icons" --allow-all-tools && git push',
     direction = "float",
     float_opts = {
       border = "curved",
@@ -322,3 +346,5 @@ map("n", "<leader>gM", function()
     vim.notify("Failed to generate description", vim.log.levels.ERROR)
   end
 end, { desc = "🤖 Generate PR description with Copilot CLI" })
+
+map("n", "<leader>ts", "<cmd>Telescope toggleterm_manager<CR>", { desc = "🔭 Telescope: ToggleTerm Manager" })
