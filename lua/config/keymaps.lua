@@ -231,21 +231,21 @@ map("n", "<leader>tw", remove_trailing_whitespace, { desc = "🧹 Remove trailin
 map("n", "<leader>gm", function()
   local Terminal = require("toggleterm.terminal").Terminal
   local copilot_term = Terminal:new({
-    cmd = 'copilot -p "add commit message with lots of fun fancy modern icons" --allow-all-tools',
+    cmd = 'copilot -p "add commit message with lots of fun fancy modern icons" --allow-all-tools && git push',
     direction = "float",
     float_opts = {
       border = "curved",
     },
     on_exit = function(t, job, exit_code)
       if exit_code == 0 then
-        vim.notify("Commit message generated successfully!", vim.log.levels.INFO)
+        vim.notify("Commit message generated and pushed successfully!", vim.log.levels.INFO)
       else
-        vim.notify("Failed to generate commit message", vim.log.levels.ERROR)
+        vim.notify("Failed to generate commit message or push", vim.log.levels.ERROR)
       end
     end,
   })
   copilot_term:toggle()
-end, { desc = "🤖 Run copilot commit message (interactive)" })
+end, { desc = "🤖 Run copilot commit message and push (interactive)" })
 
 -- Octo (GitHub integration) mappings
 map("n", "<leader>ol", "<cmd>Octo pr list<CR>", { desc = "📋 Octo: List PRs" })
