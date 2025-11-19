@@ -255,7 +255,7 @@ map("n", "<leader>tw", remove_trailing_whitespace, { desc = "🧹 Remove trailin
 map("n", "<leader>gm", function()
   local Terminal = require("toggleterm.terminal").Terminal
   local copilot_term = Terminal:new({
-    cmd = 'BRANCH=$(git rev-parse --abbrev-ref HEAD); if ! git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then git push --set-upstream origin $BRANCH; fi; copilot -p "add commit message with lots of fun fancy modern icons" --allow-all-tools && git push',
+    cmd = [[copilot -p "add commit message with lots of fun fancy modern icons" --allow-all-tools]],
     direction = "float",
     float_opts = {
       border = "curved",
