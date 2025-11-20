@@ -181,17 +181,8 @@ map("n", "<leader>tg", function()
     gemini_term = require("toggleterm.terminal").Terminal:new({
       direction = "float",
       dir = dir,
-      name = "gemini_term",
       cmd = "gemini",
-      on_open = function(term)
-        vim.api.nvim_buf_set_keymap(
-          term.bufnr,
-          "t",
-          "<Esc>",
-          "<cmd>lua require('toggleterm').toggle(" .. term.id .. ")<CR>",
-          { noremap = true, silent = true }
-        )
-      end,
+      name = "gemini_term",
     })
   end
   gemini_term:toggle()
