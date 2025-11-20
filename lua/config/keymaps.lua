@@ -246,7 +246,7 @@ map("n", "<leader>tw", remove_trailing_whitespace, { desc = "🧹 Remove trailin
 map("n", "<leader>gm", function()
   local Terminal = require("toggleterm.terminal").Terminal
   local copilot_term = Terminal:new({
-    cmd = "copilot -p 'add commit message with lots of fun fancy modern icons' --allow-all-tools",
+    cmd = 'copilot -p "add commit message with lots of fun fancy modern icons" --allow-all-tools',
     direction = "float",
     float_opts = {
       border = "curved",
@@ -261,6 +261,20 @@ map("n", "<leader>gm", function()
   })
   copilot_term:toggle()
 end, { desc = "🤖 Run copilot commit message and push (interactive)" })
+--just a newterminal
+map("n", "<leader>tn", function()
+  vim.ui.input({ prompt = "Terminal name: " }, function(name)
+    if not name or name == "" then
+      return
+    end
+    local Terminal = require("toggleterm.terminal").Terminal
+    local new_term = Terminal:new({
+      direction = "float",
+      name = name,
+    })
+    new_term:toggle()
+  end)
+end, { desc = "➕ Create new named terminal" })
 
 -- Octo (GitHub integration) mappings
 map("n", "<leader>ol", "<cmd>Octo pr list<CR>", { desc = "📋 Octo: List PRs" })
