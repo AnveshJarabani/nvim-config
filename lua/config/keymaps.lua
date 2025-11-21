@@ -352,4 +352,22 @@ map("n", "<leader>gM", function()
   end
 end, { desc = "🤖 Generate PR description with Copilot CLI" })
 
-map("n", "<leader>ts", "<cmd>Telescope toggleterm_manager<CR>", { desc = "🔭 Telescope: ToggleTerm Manager" })
+map("n", "<leader>ts", function()
+  local toggleterm = require("toggleterm.terminal")
+  local terms = toggleterm.get_all()
+  if #terms == 0 then
+    vim.notify("No terminals open", vim.log.levels.WARN)
+    return
+  end
+  vim.ui.select(
+    vim.tbl_map(function(t)
+      return t.display_name or t.name or "Terminal " .. t.id
+    end, terms),
+    { prompt = "Select terminal:" },
+    function(choice, idx)
+      if choice then
+        terms[idx]:toggle()
+      end
+    end
+  )
+end, { desc = "🔭 Select and toggle terminal" })

@@ -8,10 +8,14 @@ return {
       "nvim-telescope/telescope-live-grep-args.nvim",
       version = "^1.0.0",
     },
+    {
+      "nvim-telescope/telescope-media-files.nvim",
+    },
   },
   config = function(_, opts)
     require("telescope").setup(opts)
     require("telescope").load_extension("live_grep_args")
+    require("telescope").load_extension("media_files")
   end,
   keys = {
     {
