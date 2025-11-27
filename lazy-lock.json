@@ -82,7 +82,6 @@
   "telescope-media-files.nvim": { "branch": "master", "commit": "0826c7a730bc4d36068f7c85cf4c5b3fd9fb570a" },
   "telescope-terraform-doc.nvim": { "branch": "main", "commit": "66987fac94d12704fdfd90b857f4f648e31251c9" },
   "telescope-terraform.nvim": { "branch": "main", "commit": "072c97023797ca1a874668aaa6ae0b74425335df" },
-  "telescope-tmux.nvim": { "branch": "master", "commit": "cf857c1d28f6a5b0fd78ecb9d7c03fe95aa8eb3e" },
   "telescope-ui-select.nvim": { "branch": "master", "commit": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2" },
   "telescope.nvim": { "branch": "master", "commit": "f0caedf064aa8c926325d7fe64c141d29b8e7853" },
   "tiny-inline-diagnostic.nvim": { "branch": "main", "commit": "3255aaf9089c06db1732b25762b2eaa889034603" },

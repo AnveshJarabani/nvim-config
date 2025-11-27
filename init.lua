@@ -38,6 +38,13 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     end
   end,
 })
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argc() == 0 then
+      vim.cmd("Dashboard")
+    end
+  end,
+})
 -- Buffer Management
 vim.cmd("cabbr bd Bdelete") -- Use 'bdelete' plugin for safe buffer deletion
 vim.cmd("cabbr bn bnext")
