@@ -165,8 +165,14 @@ vim.api.nvim_create_autocmd("FileType", {
 
 local main_term
 map("n", "<leader>tl", function()
-  local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
-  local dir = (git_root and git_root ~= "") and git_root or vim.fn.getcwd()
+  local git_root_cmd = "git rev-parse --show-toplevel"
+  local git_root = vim.fn.trim(vim.fn.system(git_root_cmd .. " 2>/dev/null"))
+  local dir
+  if git_root and git_root ~= "" and vim.fn.isdirectory(git_root) == 1 then
+    dir = git_root
+  else
+    dir = vim.fn.getcwd()
+  end
   if not main_term then
     main_term = require("toggleterm.terminal").Terminal:new({ direction = "float", dir = dir, name = "main_term" })
   end
@@ -175,8 +181,14 @@ end, { desc = "💻 Toggle main floating terminal in project root dir" })
 
 local gemini_term
 map("n", "<leader>tg", function()
-  local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
-  local dir = (git_root and git_root ~= "") and git_root or vim.fn.getcwd()
+  local git_root_cmd = "git rev-parse --show-toplevel"
+  local git_root = vim.fn.trim(vim.fn.system(git_root_cmd .. " 2>/dev/null"))
+  local dir
+  if git_root and git_root ~= "" and vim.fn.isdirectory(git_root) == 1 then
+    dir = git_root
+  else
+    dir = vim.fn.getcwd()
+  end
   if not gemini_term then
     gemini_term = require("toggleterm.terminal").Terminal:new({
       direction = "float",

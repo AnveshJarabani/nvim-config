@@ -2,6 +2,17 @@ return {
   -- add dracula
   { "Mofiqul/dracula.nvim" },
 
+  -- add onedark
+  {
+    "navarasu/onedark.nvim",
+    config = function()
+      require("onedark").setup({
+        style = "deep",
+      })
+      require("onedark").load()
+    end,
+  },
+
   -- Configure LazyVim to load dracula
   {
     "LazyVim/LazyVim",
