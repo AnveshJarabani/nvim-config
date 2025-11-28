@@ -8,8 +8,26 @@ return {
     config = function()
       require("onedark").setup({
         style = "deep",
+        colors = {
+          bg = "#1a1a1a",
+        },
+        highlights = {
+          Normal = { bg = "#1a1a1a" },
+          NormalFloat = { bg = "#202020" },
+          NormalNC = { bg = "#1a1a1a" },
+          FloatBorder = { bg = "#202020" },
+          SignColumn = { bg = "#1a1a1a" },
+          LineNr = { bg = "#1a1a1a" },
+        },
       })
       require("onedark").load()
+    end,
+  },
+
+  {
+    "olimorris/onedarkpro.nvim",
+    config = function()
+      require("onedarkpro").setup({})
     end,
   },
 
@@ -17,7 +35,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight-night",
+      colorscheme = "onedark",
     },
   },
 
