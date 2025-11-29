@@ -145,7 +145,12 @@ map(
 map("n", "<leader>rm", [[:%s/\r//g<CR>]], { noremap = true, silent = true })
 map("v", "<leader>rm", [[:s/\r//g<CR>]], { noremap = true, silent = true })
 map("n", "<space>zz", ":qa!<CR>", { desc = "🚪 Quit All" })
-map("n", "<space>G", "<cmd>LazyGit<CR>", { noremap = true, silent = true, desc = "🚀 LazyGit" })
+map("n", "<leader>zl", function()
+  require("snacks").lazygit()
+end, { noremap = true, silent = true, desc = "🚀 LazyGit" })
+map("n", "<leader>zf", function()
+  require("snacks").lazygit({ args = { "--screen-mode", "full" } })
+end, { noremap = true, silent = true, desc = "🚀 LazyGit Fullscreen" })
 map("n", "ZQ", ":qa!<CR>")
 map("n", "ZZ", ":wqa!<CR>")
 
