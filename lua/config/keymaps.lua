@@ -200,6 +200,27 @@ map("n", "<leader>tg", function()
   gemini_term:toggle()
 end, { desc = "♊ Toggle Gemini floating terminal in project root dir" })
 
+local copilot_term
+map("n", "<leader>tc", function()
+  local git_root_cmd = "git rev-parse --show-toplevel"
+  local git_root = vim.fn.trim(vim.fn.system(git_root_cmd .. " 2>/dev/null"))
+  local dir
+  if git_root and git_root ~= "" and vim.fn.isdirectory(git_root) == 1 then
+    dir = git_root
+  else
+    dir = vim.fn.getcwd()
+  end
+  if not copilot_term then
+    copilot_term = require("toggleterm.terminal").Terminal:new({
+      direction = "float",
+      dir = dir,
+      cmd = "copilot",
+      name = "copilot_term",
+    })
+  end
+  copilot_term:toggle()
+end, { desc = "🤖 Toggle Copilot floating terminal in project root dir" })
+
 map("i", "<C-y>", function()
   require("copilot.suggestion").accept()
 end, { desc = "🤖 Copilot Accept" })
