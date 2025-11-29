@@ -144,7 +144,6 @@ map(
 )
 map("n", "<leader>rm", [[:%s/\r//g<CR>]], { noremap = true, silent = true })
 map("v", "<leader>rm", [[:s/\r//g<CR>]], { noremap = true, silent = true })
-map("n", "<leader>ss", ":AutoSession search<CR>", { desc = "🔍 SessionSearch" })
 map("n", "<space>zz", ":qa!<CR>", { desc = "🚪 Quit All" })
 map("n", "<space>G", "<cmd>LazyGit<CR>", { noremap = true, silent = true, desc = "🚀 LazyGit" })
 map("n", "ZQ", ":qa!<CR>")
@@ -224,6 +223,12 @@ end, { desc = "🤖 Toggle Copilot floating terminal in project root dir" })
 map("i", "<C-y>", function()
   require("copilot.suggestion").accept()
 end, { desc = "🤖 Copilot Accept" })
+
+-- Session management keybindings
+map("n", "<leader>ss", ":AutoSession search<CR>", { desc = "🔍 SessionSearch" })
+map("n", "<leader>sw", "<cmd>SessionSave<CR>", { desc = "💾 Save Current Session" })
+map("n", "<leader>sr", "<cmd>SessionRestore<CR>", { desc = "📂 Restore Session" })
+map("n", "<leader>sd", "<cmd>SessionDelete<CR>", { desc = "🗑️ Delete Session" })
 
 map("n", "<leader>yd", function()
   local dir = vim.fn.expand("%:p:h")
