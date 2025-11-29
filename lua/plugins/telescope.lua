@@ -75,6 +75,14 @@ return {
         matcher = "fuzzy",
         path_display = { "filename_first" },
       },
+      ["ui-select"] = {
+        require("telescope.themes").get_dropdown({
+          layout_config = {
+            width = 0.95,
+            height = 0.95,
+          },
+        }),
+      },
     },
     pickers = {
       find_files = {

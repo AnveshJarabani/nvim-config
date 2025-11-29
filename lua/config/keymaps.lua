@@ -145,6 +145,15 @@ map(
 map("n", "<leader>rm", [[:%s/\r//g<CR>]], { noremap = true, silent = true })
 map("v", "<leader>rm", [[:s/\r//g<CR>]], { noremap = true, silent = true })
 map("n", "<space>zz", ":qa!<CR>", { desc = "🚪 Quit All" })
+
+-- GitHub search functions
+map("n", "<leader>gs", function()
+  require("config.gh-search").search_code()
+end, { noremap = true, silent = true, desc = "🔍 GitHub Code Search" })
+map("n", "<leader>gb", function()
+  require("config.gh-search").browse_repo()
+end, { noremap = true, silent = true, desc = "📦 GitHub Browse Repo" })
+
 map("n", "<leader>zl", function()
   require("snacks").lazygit()
 end, { noremap = true, silent = true, desc = "🚀 LazyGit" })
