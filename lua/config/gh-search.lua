@@ -10,7 +10,7 @@ function M.search_code()
 
     -- Run gh search code command
     local cmd = string.format(
-      'gh search code "%s" --owner mediwareinc --limit 100 --json repository,path,url',
+      'gh search code "%s" --owner mediwareinc --limit 100 --json repository,path,url,textMatches',
       query
     )
 
@@ -57,19 +57,65 @@ function M.search_code()
                   display = entry.repository.nameWithOwner .. " → " .. entry.path,
                   ordinal = entry.repository.nameWithOwner .. " " .. entry.path,
                   url = entry.url,
+                  textMatches = entry.textMatches or {},
                 }
               end,
             }),
             sorter = conf.generic_sorter({}),
             previewer = require("telescope.previewers").new_buffer_previewer({
-              title = "Info",
+              title = "Code Preview",
               define_preview = function(self, entry)
-                vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, {
+                local lines = {
                   "Repository: " .. entry.value.repository.nameWithOwner,
                   "Path: " .. entry.value.path,
-                  "",
                   "URL: " .. entry.value.url,
-                })
+                  "",
+                  "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+                  "",
+                }
+
+                -- Add code matches
+                if entry.textMatches and #entry.textMatches > 0 then
+                  for i, match in ipairs(entry.textMatches) do
+                    if i > 5 then
+                      break
+                    end -- Limit to 5 matches for preview
+                    table.insert(lines, "Match #" .. i .. ":")
+                    table.insert(lines, "")
+                    -- Split fragment into lines and add them
+                    local fragment = match.fragment or ""
+                    for line in fragment:gmatch("[^\r\n]+") do
+                      table.insert(lines, line)
+                    end
+                    table.insert(lines, "")
+                    table.insert(lines, "───────────────────────────────────────────────────")
+                    table.insert(lines, "")
+                  end
+                else
+                  table.insert(lines, "No code preview available")
+                end
+
+                vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
+
+                -- Set syntax highlighting based on file extension
+                local extension = entry.value.path:match("%.([^%.]+)$")
+                if extension then
+                  local ft_map = {
+                    js = "javascript",
+                    ts = "typescript",
+                    py = "python",
+                    lua = "lua",
+                    sh = "bash",
+                    md = "markdown",
+                    json = "json",
+                    yml = "yaml",
+                    yaml = "yaml",
+                    sql = "sql",
+                    cs = "cs",
+                  }
+                  local filetype = ft_map[extension] or extension
+                  vim.api.nvim_buf_set_option(self.state.bufnr, "filetype", filetype)
+                end
               end,
             }),
             attach_mappings = function(prompt_bufnr, map)
