@@ -1,5 +1,6 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
+require("config.markdown-diagnostics")
 vim.opt.clipboard = "unnamedplus"
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
