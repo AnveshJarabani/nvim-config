@@ -16,8 +16,8 @@ return {
         ["<Down>"] = { "select_next", "fallback" },
         ["<Up>"] = { "select_prev", "fallback" },
         ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
-        ["<TAB>"] = { "accept", "fallback" }, -- Tab for blink.cmp completion
-        ["<CR>"] = { "fallback" }, -- Let Enter fall through to other plugins (like Copilot)
+        ["<CR>"] = { "accept", "fallback" }, -- Enter for blink.cmp completion
+        ["<TAB>"] = { "fallback" }, -- Tab falls through
       },
       appearance = {
         kind_icons = {
